@@ -12,14 +12,19 @@ const reducer = (
 ): UserState => {
   switch (action.type) {
     case actionTypes.SET_USERS: {
-      const sortedUsers = action.users.sort((a: IUser, b: IUser) => {
+      const sortedUsers = action.users
+        .map((user: IUser) => ({
+          ...user,
+          lowerName: user.name.toLowerCase(),
+        }))
+        .sort((a: IUser, b: IUser) => {
           if (b.bananas !== a.bananas) {
             return b.bananas - a.bananas;
           } else {
             // alphabetically sort names if banana counts match, respecting locale
             return a.name.localeCompare(b.name);
           }
-      });
+        });
       const rankedUsers = sortedUsers.map((user: IUser, index: number) => ({
         ...user,
         rank: index + 1,

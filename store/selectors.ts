@@ -13,7 +13,7 @@ export const getSearchedUser = createSelector(
 
     const lowerSearchKeyword = searchKeyword.toLowerCase();
     const filteredUsers = users.filter((user) =>
-      user.name.toLowerCase().includes(lowerSearchKeyword),
+      user.lowerName.includes(lowerSearchKeyword),
     );
 
     if (filteredUsers.length === 0) {
