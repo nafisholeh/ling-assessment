@@ -1,12 +1,13 @@
 interface IUser {
+  uid: string;
   name: string;
   bananas: number;
+  rank?: number;
 }
 
 type UserState = {
   users: IUser[];
   searchKeyword: string | null;
-  searchedUser: string | null;
   error: string | null;
 };
 

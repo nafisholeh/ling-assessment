@@ -12,18 +12,25 @@ const reducer = (
   action: UserAction,
 ): UserState => {
   switch (action.type) {
-    case actionTypes.SET_USERS:
-      return {
-        ...state,
-        users: action.users.sort((a: IUser, b: IUser) => {
+    case actionTypes.SET_USERS: {
+      const sortedUsers = action.users.sort((a: IUser, b: IUser) => {
           if (b.bananas !== a.bananas) {
             return b.bananas - a.bananas;
           } else {
             // alphabetically sort names if banana counts match, respecting locale
             return a.name.localeCompare(b.name);
           }
-        }),
+      });
+      const rankedUsers = sortedUsers.map((user: IUser, index: number) => ({
+        ...user,
+        rank: index + 1,
+      }));
+
+      return {
+        ...state,
+        users: rankedUsers,
       };
+    }
     case actionTypes.SET_SEARCH_KEYWORD:
       return {
         ...state,
