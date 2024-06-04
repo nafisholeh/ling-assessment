@@ -3,7 +3,6 @@ import * as actionTypes from './actionTypes';
 const initialState: UserState = {
   users: [],
   searchKeyword: null,
-  searchedUser: null,
   error: null,
 };
 
