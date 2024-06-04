@@ -29,7 +29,10 @@ const Index = () => {
 
   const renderItem = ({ item }: { item: IUser }): React.ReactElement => {
     return (
-      <Card style={styles.item} status="basic">
+      <Card
+        style={styles.item}
+        status={item.isHighlighted ? 'success' : 'basic'}
+      >
         <Text>{item.rank}</Text>
         <Text>{item.name}</Text>
         <Text>{item.bananas}</Text>

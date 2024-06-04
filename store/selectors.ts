@@ -19,11 +19,16 @@ export const getSearchedUser = createSelector(
     if (filteredUsers.length === 0) {
       return null;
     } else if (filteredUsers.length === 1) {
-      const topTenUsers = users.slice(0, 10);
-      const searchedUser = filteredUsers[0];
+      const topTenUsers = users.slice(0, 10).map((user) => ({
+        ...user,
+        isHighlighted: false,
+      }));
+      const searchedUser = { ...filteredUsers[0], isHighlighted: true };
 
-      if (searchedUser.rank < 10) {
-        return topTenUsers;
+      if (searchedUser.rank <= 10) {
+        return topTenUsers.map((user) =>
+          user.uid === searchedUser.uid ? searchedUser : user,
+        );
       } else {
         return [...topTenUsers.slice(0, 9), searchedUser];
       }

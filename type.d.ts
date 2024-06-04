@@ -7,6 +7,7 @@ interface IUserBase {
 interface IUser extends IUserBase {
   rank: number;
   lowerName: string;
+  isHighlighted?: boolean;
 }
 
 type UserState = {
