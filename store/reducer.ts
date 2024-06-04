@@ -15,7 +15,15 @@ const reducer = (
     case actionTypes.SET_USERS:
       return {
         ...state,
-        users: action.users.sort((a: IUser, b: IUser) => b.bananas - a.bananas),
+        users: action.users.sort((a: IUser, b: IUser) => {
+          if (b.bananas !== a.bananas) {
+            return b.bananas - a.bananas;
+          } else {
+            // alphabetically sort names if banana counts match, respecting locale
+            return a.name.localeCompare(b.name);
+          }
+        }),
+      };
       };
     default:
       return state;
