@@ -22,7 +22,7 @@ export const getSearchedUser = createSelector(
       const topTenUsers = users.slice(0, 10);
       const searchedUser = filteredUsers[0];
 
-      if (!searchedUser.rank || searchedUser.rank < 10) {
+      if (searchedUser.rank < 10) {
         return topTenUsers;
       } else {
         return [...topTenUsers.slice(0, 9), searchedUser];
