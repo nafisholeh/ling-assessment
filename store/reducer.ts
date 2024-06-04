@@ -15,7 +15,7 @@ const reducer = (
     case actionTypes.SET_USERS:
       return {
         ...state,
-        users: action.users,
+        users: action.users.sort((a: IUser, b: IUser) => b.bananas - a.bananas),
       };
     default:
       return state;
