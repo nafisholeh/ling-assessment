@@ -5,14 +5,20 @@ interface IUser {
 
 type UserState = {
   users: IUser[];
-  searchResult: IUser[];
+  searchKeyword: string | null;
   searchedUser: string | null;
   error: string | null;
 };
 
-type UserAction = {
+type SetUserAction = {
   type: string;
   users: IUser[];
 };
 
+type SetSearchKeywordAction = {
+  type: string;
+  searchKeyword: string;
+};
+
+type UserAction = SetUsersAction | SetSearchKeywordAction;
 type DispatchType = (args: UserAction) => UserAction;

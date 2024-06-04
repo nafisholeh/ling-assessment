@@ -65,6 +65,7 @@
     "lint-staged": "^15.2.5",
     "prettier": "^3.2.5",
     "react-test-renderer": "18.2.0",
+    "reselect": "^5.1.1",
     "typescript": "~5.3.3"
   },
   "lint-staged": {

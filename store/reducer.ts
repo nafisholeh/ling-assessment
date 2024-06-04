@@ -2,7 +2,7 @@ import * as actionTypes from './actionTypes';
 
 const initialState: UserState = {
   users: [],
-  searchResult: [],
+  searchKeyword: null,
   searchedUser: null,
   error: null,
 };
@@ -24,6 +24,10 @@ const reducer = (
           }
         }),
       };
+    case actionTypes.SET_SEARCH_KEYWORD:
+      return {
+        ...state,
+        searchKeyword: action.searchKeyword,
       };
     default:
       return state;
