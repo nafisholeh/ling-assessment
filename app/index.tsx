@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Dispatch } from 'redux';
 
 import data from '@/data/leaderboard.json';
-import { setUsers, setSearchKeyword } from '@/store/actionCreators';
+import { formatUserEntries, searchForUsers } from '@/store/actionCreators';
 import { getSearchedUser } from '@/store/selectors';
 
 const Index = () => {
@@ -24,7 +24,7 @@ const Index = () => {
   const searchedUser = useSelector(getSearchedUser);
 
   useEffect(() => {
-    dispatch(setUsers(Object.values(data)));
+    dispatch(formatUserEntries(Object.values(data)));
   }, [dispatch]);
 
   const renderItem = ({ item }: { item: IUser }): React.ReactElement => {
@@ -37,9 +37,9 @@ const Index = () => {
     );
   };
 
-  const searchForUser = () => {
+  const onSearchForUsers = () => {
     if (keyword) {
-      dispatch(setSearchKeyword(keyword));
+      dispatch(searchForUsers(keyword));
     }
   };
 
@@ -57,7 +57,7 @@ const Index = () => {
           onChangeText={onKeywordChange}
           value={keyword}
         />
-        <Button onPress={searchForUser}>Search</Button>
+        <Button onPress={onSearchForUsers}>Search</Button>
       </View>
       {searchedUser && (
         <List

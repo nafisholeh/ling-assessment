@@ -15,15 +15,15 @@ type UserState = {
   error: string | null;
 };
 
-type SetUserAction = {
+type FormatUserEntriesAction = {
   type: string;
   users: IUserBase[];
 };
 
-type SetSearchKeywordAction = {
+type SearchForUsersAction = {
   type: string;
   searchKeyword: string;
 };
 
-type UserAction = SetUsersAction | SetSearchKeywordAction;
+type UserAction = FormatUserEntriesAction | SearchForUsersAction;
 type DispatchType = (args: UserAction) => UserAction;

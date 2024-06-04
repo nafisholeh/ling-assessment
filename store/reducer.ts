@@ -11,7 +11,7 @@ const reducer = (
   action: UserAction,
 ): UserState => {
   switch (action.type) {
-    case actionTypes.SET_USERS: {
+    case actionTypes.FORMAT_USER_ENTRIES: {
       const sortedUsers = action.users
         .map((user: IUser) => ({
           ...user,
@@ -35,7 +35,7 @@ const reducer = (
         users: rankedUsers,
       };
     }
-    case actionTypes.SET_SEARCH_KEYWORD:
+    case actionTypes.SEARCH_FOR_USERS:
       return {
         ...state,
         searchKeyword: action.searchKeyword,

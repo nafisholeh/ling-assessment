@@ -1,16 +1,16 @@
 import * as actionTypes from './actionTypes';
 
-export function setUsers(users: IUserBase[]) {
-  const action: SetUserAction = {
-    type: actionTypes.SET_USERS,
+export function formatUserEntries(users: IUserBase[]) {
+  const action: FormatUserEntriesAction = {
+    type: actionTypes.FORMAT_USER_ENTRIES,
     users,
   };
   return action;
 }
 
-export function setSearchKeyword(searchKeyword: string) {
-  const action: SetSearchKeywordAction = {
-    type: actionTypes.SET_SEARCH_KEYWORD,
+export function searchForUsers(searchKeyword: string) {
+  const action: SearchForUsersAction = {
+    type: actionTypes.SEARCH_FOR_USERS,
     searchKeyword,
   };
   return action;
