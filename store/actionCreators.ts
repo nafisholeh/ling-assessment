@@ -1,6 +1,6 @@
 import * as actionTypes from './actionTypes';
 
-export function setUsers(users: IUser[]) {
+export function setUsers(users: IUserBase[]) {
   const action: SetUserAction = {
     type: actionTypes.SET_USERS,
     users,

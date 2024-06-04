@@ -1,8 +1,12 @@
-interface IUser {
+interface IUserBase {
   uid: string;
   name: string;
   bananas: number;
-  rank?: number;
+}
+
+interface IUser extends IUserBase {
+  rank: number;
+  lowerName: string;
 }
 
 type UserState = {
@@ -13,7 +17,7 @@ type UserState = {
 
 type SetUserAction = {
   type: string;
-  users: IUser[];
+  users: IUserBase[];
 };
 
 type SetSearchKeywordAction = {
