@@ -21,6 +21,7 @@ const Index = () => {
   const [keyword, setKeyword] = useState<string | undefined>(undefined);
   const [emptySearchModalVisible, setEmptySearchModalVisible] =
     useState<boolean>(false);
+  const [searchPerformed, setSearchPerformed] = useState<boolean>(false);
 
   const dispatch: Dispatch<UserAction> = useDispatch();
 
@@ -31,12 +32,12 @@ const Index = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (searchedUser && searchedUser.length === 0) {
+    if (searchPerformed && searchedUser && searchedUser.length === 0) {
       setEmptySearchModalVisible(true);
     } else {
       setEmptySearchModalVisible(false);
     }
-  }, [searchedUser]);
+  }, [searchedUser, searchPerformed]);
 
   const renderItem = ({ item }: { item: IUser }): React.ReactElement => {
     return (
@@ -52,6 +53,7 @@ const Index = () => {
   };
 
   const onSearchForUsers = () => {
+    setSearchPerformed(true);
     if (keyword) {
       dispatch(searchForUsers(keyword));
     }
