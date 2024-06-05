@@ -23,6 +23,7 @@ const Index = () => {
     useState<boolean>(false);
   const [searchPerformed, setSearchPerformed] = useState<boolean>(false);
   const [sortByNameAsc, setSortByNameAsc] = useState<boolean>(true);
+  const [sortByRankAsc, setSortByRankAsc] = useState<boolean>(true);
   const [sortedUser, setSortedUser] = useState<IUser[] | undefined>();
 
   const dispatch: Dispatch<UserAction> = useDispatch();
@@ -81,6 +82,18 @@ const Index = () => {
     setSortedUser(sorted);
   };
 
+  const sortByRank = () => {
+    setSortByRankAsc(!sortByRankAsc);
+    const sorted = searchedUser?.sort((a, b) => {
+      // same score are listed alphabetically
+      if (a.bananas === b.bananas) {
+        return a.name.localeCompare(b.name);
+      }
+      return sortByRankAsc ? a.rank - b.rank : b.rank - a.rank;
+    });
+    setSortedUser(sorted);
+  };
+
   return (
     <Layout style={styles.root}>
       <View style={styles.searchContainer}>
@@ -97,6 +110,9 @@ const Index = () => {
         <View style={styles.buttonsContainer}>
           <Button onPress={toggleSortByName}>
             {sortByNameAsc ? 'Sort by Name Desc' : 'Sort by Name Asc'}
+          </Button>
+          <Button onPress={sortByRank}>
+            {sortByRankAsc ? 'Sort by Rank Desc' : 'Sort by Rank Asc'}
           </Button>
         </View>
       )}
