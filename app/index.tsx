@@ -12,12 +12,15 @@ import { StyleSheet, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { Dispatch } from 'redux';
 
+import EmptySearchModal from '@/components/EmptySearchModal';
 import data from '@/data/leaderboard.json';
 import { formatUserEntries, searchForUsers } from '@/store/actionCreators';
 import { getSearchedUser } from '@/store/selectors';
 
 const Index = () => {
   const [keyword, setKeyword] = useState<string | undefined>(undefined);
+  const [emptySearchModalVisible, setEmptySearchModalVisible] =
+    useState<boolean>(false);
 
   const dispatch: Dispatch<UserAction> = useDispatch();
 
@@ -26,6 +29,14 @@ const Index = () => {
   useEffect(() => {
     dispatch(formatUserEntries(Object.values(data)));
   }, [dispatch]);
+
+  useEffect(() => {
+    if (searchedUser && searchedUser.length === 0) {
+      setEmptySearchModalVisible(true);
+    } else {
+      setEmptySearchModalVisible(false);
+    }
+  }, [searchedUser]);
 
   const renderItem = ({ item }: { item: IUser }): React.ReactElement => {
     return (
@@ -50,6 +61,10 @@ const Index = () => {
     setKeyword(_keyword);
   };
 
+  const onEmptySearchModalClose = () => {
+    setEmptySearchModalVisible(false);
+  };
+
   return (
     <Layout style={styles.root}>
       <View style={styles.searchContainer}>
@@ -70,6 +85,10 @@ const Index = () => {
           renderItem={renderItem}
         ></List>
       )}
+      <EmptySearchModal
+        visible={emptySearchModalVisible}
+        onClose={onEmptySearchModalClose}
+      />
     </Layout>
   );
 };

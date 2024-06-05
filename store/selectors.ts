@@ -17,7 +17,7 @@ export const getSearchedUser = createSelector(
     );
 
     if (filteredUsers.length === 0) {
-      return null;
+      return [];
     } else if (filteredUsers.length === 1) {
       const topTenUsers = users.slice(0, 10).map((user) => ({
         ...user,
