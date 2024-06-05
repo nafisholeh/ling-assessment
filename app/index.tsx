@@ -22,6 +22,8 @@ const Index = () => {
   const [emptySearchModalVisible, setEmptySearchModalVisible] =
     useState<boolean>(false);
   const [searchPerformed, setSearchPerformed] = useState<boolean>(false);
+  const [sortByNameAsc, setSortByNameAsc] = useState<boolean>(true);
+  const [sortedUser, setSortedUser] = useState<IUser[] | undefined>();
 
   const dispatch: Dispatch<UserAction> = useDispatch();
 
@@ -33,6 +35,7 @@ const Index = () => {
 
   useEffect(() => {
     if (searchPerformed && searchedUser && searchedUser.length === 0) {
+      setSearchPerformed(false);
       setEmptySearchModalVisible(true);
     } else {
       setEmptySearchModalVisible(false);
@@ -54,6 +57,7 @@ const Index = () => {
 
   const onSearchForUsers = () => {
     setSearchPerformed(true);
+    setSortedUser(undefined);
     if (keyword) {
       dispatch(searchForUsers(keyword));
     }
@@ -65,6 +69,16 @@ const Index = () => {
 
   const onEmptySearchModalClose = () => {
     setEmptySearchModalVisible(false);
+  };
+
+  const toggleSortByName = () => {
+    setSortByNameAsc(!sortByNameAsc);
+    const sorted = searchedUser?.sort((a, b) => {
+      return sortByNameAsc
+        ? a.name.localeCompare(b.name)
+        : b.name.localeCompare(a.name);
+    });
+    setSortedUser(sorted);
   };
 
   return (
@@ -79,11 +93,18 @@ const Index = () => {
         />
         <Button onPress={onSearchForUsers}>Search</Button>
       </View>
+      {searchPerformed && (
+        <View style={styles.buttonsContainer}>
+          <Button onPress={toggleSortByName}>
+            {sortByNameAsc ? 'Sort by Name Desc' : 'Sort by Name Asc'}
+          </Button>
+        </View>
+      )}
       {searchedUser && (
         <List
           style={styles.list}
           contentContainerStyle={styles.listContainer}
-          data={searchedUser}
+          data={sortedUser || searchedUser}
           renderItem={renderItem}
         ></List>
       )}
@@ -96,6 +117,11 @@ const Index = () => {
 };
 
 const styles = StyleSheet.create({
+  buttonsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginVertical: 10,
+  },
   root: {
     flex: 1,
     justifyContent: 'center',
