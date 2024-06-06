@@ -13,6 +13,7 @@ import { Image, StyleSheet, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { Dispatch } from 'redux';
 
+import BottomCosmetic from '@/components/BottomCosmetic';
 import EmptySearchModal from '@/components/EmptySearchModal';
 import SearchOptions from '@/components/SortOptions';
 import data from '@/data/leaderboard.json';
@@ -117,6 +118,7 @@ const Index = () => {
           style={styles.backgroundImage}
         />
       </View>
+
       <Card style={styles.searchCard} appearance="filled" disabled={false}>
         <Text
           style={{
@@ -161,14 +163,17 @@ const Index = () => {
         )}
       </Card>
 
+      {!searchPerformed && <BottomCosmetic />}
+
       {searchedUser && (
         <List
           style={styles.list}
           contentContainerStyle={styles.listContainer}
           data={sortedUser || searchedUser}
           renderItem={renderItem}
-        ></List>
+        />
       )}
+
       <EmptySearchModal
         visible={emptySearchModalVisible}
         onClose={onEmptySearchModalClose}
