@@ -1,13 +1,4 @@
-import {
-  Layout,
-  List,
-  Button,
-  Card,
-  Input,
-  Icon,
-  Text,
-  Divider,
-} from '@ui-kitten/components';
+import { Layout, List, Card, Text, Divider } from '@ui-kitten/components';
 import React, { useState, useEffect } from 'react';
 import { Image, StyleSheet, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
@@ -15,6 +6,7 @@ import { Dispatch } from 'redux';
 
 import BottomCosmetic from '@/components/BottomCosmetic';
 import EmptySearchModal from '@/components/EmptySearchModal';
+import SearchInput from '@/components/SearchInput';
 import SearchOptions from '@/components/SortOptions';
 import data from '@/data/leaderboard.json';
 import { formatUserEntries, searchForUsers } from '@/store/actionCreators';
@@ -135,24 +127,11 @@ const Index = () => {
             Top Banana Bunch:{'\n'}A League of Legends
           </Text>
         )}
-        <View style={styles.searchInputWrapper}>
-          <Input
-            style={styles.searchBox}
-            textStyle={{ letterSpacing: 0.7 }}
-            accessoryLeft={<Icon animation="zoom" name="search" />}
-            placeholder="User name…"
-            onChangeText={onKeywordChange}
-            value={keyword}
-            size="large"
-          />
-          <Button
-            onPress={onSearchForUsers}
-            style={styles.searchButton}
-            size="large"
-          >
-            Search
-          </Button>
-        </View>
+        <SearchInput
+          keyword={keyword}
+          onKeywordChange={onKeywordChange}
+          onSearchForUsers={onSearchForUsers}
+        />
         {searchPerformed && (
           <>
             <Divider style={styles.searchOptionsDivider} />
@@ -205,22 +184,8 @@ const styles = StyleSheet.create({
   searchCard: {
     marginHorizontal: 16,
   },
-  searchInputWrapper: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 10,
-  },
   searchOptionsDivider: {
     marginTop: 10,
-  },
-  searchBox: {
-    flex: 4,
-    marginRight: 16,
-  },
-  searchButton: {
-    flex: 1,
-    letterSpacing: 2,
   },
   list: {},
   listContainer: {},
