@@ -6,13 +6,15 @@ import {
   Input,
   Icon,
   Text,
+  Divider,
 } from '@ui-kitten/components';
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Image, StyleSheet, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { Dispatch } from 'redux';
 
 import EmptySearchModal from '@/components/EmptySearchModal';
+import SearchOptions from '@/components/SortOptions';
 import data from '@/data/leaderboard.json';
 import { formatUserEntries, searchForUsers } from '@/store/actionCreators';
 import { getSearchedUser } from '@/store/selectors';
@@ -22,8 +24,8 @@ const Index = () => {
   const [emptySearchModalVisible, setEmptySearchModalVisible] =
     useState<boolean>(false);
   const [searchPerformed, setSearchPerformed] = useState<boolean>(false);
-  const [sortByNameAsc, setSortByNameAsc] = useState<boolean>(true);
-  const [sortByRankAsc, setSortByRankAsc] = useState<boolean>(true);
+  const [sortByName, setSortByName] = useState<'asc' | 'desc' | undefined>();
+  const [sortByRank, setSortByRank] = useState<'asc' | 'desc' | undefined>();
   const [sortedUser, setSortedUser] = useState<IUser[] | undefined>();
 
   const dispatch: Dispatch<UserAction> = useDispatch();
@@ -72,50 +74,93 @@ const Index = () => {
     setEmptySearchModalVisible(false);
   };
 
-  const toggleSortByName = () => {
-    setSortByNameAsc(!sortByNameAsc);
-    const sorted = searchedUser?.sort((a, b) => {
-      return sortByNameAsc
-        ? a.name.localeCompare(b.name)
-        : b.name.localeCompare(a.name);
-    });
+  const toggleSortByName = (direction: 'asc' | 'desc') => {
+    setSortByRank(undefined);
+    setSortByName(direction);
+    const sorted = searchedUser
+      ? [...searchedUser].sort((a, b) => {
+          return direction === 'asc'
+            ? a.name.localeCompare(b.name)
+            : b.name.localeCompare(a.name);
+        })
+      : undefined;
     setSortedUser(sorted);
   };
 
-  const sortByRank = () => {
-    setSortByRankAsc(!sortByRankAsc);
-    const sorted = searchedUser?.sort((a, b) => {
-      // same score are listed alphabetically
-      if (a.bananas === b.bananas) {
-        return a.name.localeCompare(b.name);
-      }
-      return sortByRankAsc ? a.rank - b.rank : b.rank - a.rank;
-    });
+  const toggleSortByRank = (direction: 'asc' | 'desc') => {
+    setSortByName(undefined);
+    setSortByRank(direction);
+    const sorted = searchedUser
+      ? [...searchedUser].sort((a, b) => {
+          // same score are listed alphabetically
+          if (a.bananas === b.bananas) {
+            return a.name.localeCompare(b.name);
+          }
+          return direction === 'asc' ? a.rank - b.rank : b.rank - a.rank;
+        })
+      : undefined;
     setSortedUser(sorted);
+  };
+
+  const onClearSort = () => {
+    setSortedUser(undefined);
+    setSortByName(undefined);
+    setSortByRank(undefined);
   };
 
   return (
-    <Layout style={styles.root}>
-      <View style={styles.searchContainer}>
-        <Input
-          style={styles.searchBox}
-          accessoryLeft={<Icon animation="zoom" name="search" />}
-          placeholder="User name…"
-          onChangeText={onKeywordChange}
-          value={keyword}
+    <Layout style={styles.root} level="2">
+      <View style={styles.backgroundContainer}>
+        <Image
+          source={require('@/assets/images/banana-win.png')}
+          resizeMode="cover"
+          style={styles.backgroundImage}
         />
-        <Button onPress={onSearchForUsers}>Search</Button>
       </View>
-      {searchPerformed && (
-        <View style={styles.buttonsContainer}>
-          <Button onPress={toggleSortByName}>
-            {sortByNameAsc ? 'Sort by Name Desc' : 'Sort by Name Asc'}
-          </Button>
-          <Button onPress={sortByRank}>
-            {sortByRankAsc ? 'Sort by Rank Desc' : 'Sort by Rank Asc'}
+      <Card style={styles.searchCard} appearance="filled" disabled={false}>
+        <Text
+          style={{
+            fontSize: 18,
+            fontWeight: 300,
+            marginBottom: 20,
+            letterSpacing: 0.7,
+            lineHeight: 24,
+          }}
+        >
+          Top Banana Bunch:{'\n'}A League of Legends
+        </Text>
+        <View style={styles.searchInputWrapper}>
+          <Input
+            style={styles.searchBox}
+            textStyle={{ letterSpacing: 0.7 }}
+            accessoryLeft={<Icon animation="zoom" name="search" />}
+            placeholder="User name…"
+            onChangeText={onKeywordChange}
+            value={keyword}
+            size="large"
+          />
+          <Button
+            onPress={onSearchForUsers}
+            style={styles.searchButton}
+            size="large"
+          >
+            Search
           </Button>
         </View>
-      )}
+        {searchPerformed && (
+          <>
+            <Divider style={styles.searchOptionsDivider} />
+            <SearchOptions
+              sortByName={sortByName}
+              sortByRank={sortByRank}
+              toggleSortByName={toggleSortByName}
+              toggleSortByRank={toggleSortByRank}
+              onClearSort={onClearSort}
+            />
+          </>
+        )}
+      </Card>
+
       {searchedUser && (
         <List
           style={styles.list}
@@ -133,24 +178,40 @@ const Index = () => {
 };
 
 const styles = StyleSheet.create({
-  buttonsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginVertical: 10,
-  },
   root: {
     flex: 1,
     justifyContent: 'center',
   },
-  searchContainer: {
+  backgroundContainer: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+  },
+  backgroundImage: {
+    width: '100%',
+    height: 500,
+  },
+  searchCard: {
+    marginHorizontal: 16,
+  },
+  searchInputWrapper: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: 10,
+    marginBottom: 10,
+  },
+  searchOptionsDivider: {
+    marginTop: 10,
   },
   searchBox: {
+    flex: 4,
+    marginRight: 16,
+  },
+  searchButton: {
     flex: 1,
-    marginRight: 10,
+    letterSpacing: 2,
   },
   list: {},
   listContainer: {},
