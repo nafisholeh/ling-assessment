@@ -1,4 +1,4 @@
-import { Layout, List, Card, Text, Divider } from '@ui-kitten/components';
+import { Layout, Card, Text, Divider } from '@ui-kitten/components';
 import React, { useState, useEffect } from 'react';
 import { Image, StyleSheet, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,6 +8,7 @@ import BottomCosmetic from '@/components/BottomCosmetic';
 import EmptySearchModal from '@/components/EmptySearchModal';
 import SearchInput from '@/components/SearchInput';
 import SearchOptions from '@/components/SortOptions';
+import UserLists from '@/components/UserLists';
 import data from '@/data/leaderboard.json';
 import { formatUserEntries, searchForUsers } from '@/store/actionCreators';
 import { getSearchedUser } from '@/store/selectors';
@@ -37,19 +38,6 @@ const Index = () => {
       setEmptySearchModalVisible(false);
     }
   }, [searchedUser, searchPerformed]);
-
-  const renderItem = ({ item }: { item: IUser }): React.ReactElement => {
-    return (
-      <Card
-        style={styles.item}
-        status={item.isHighlighted ? 'success' : 'basic'}
-      >
-        <Text>{item.rank}</Text>
-        <Text>{item.name}</Text>
-        <Text>{item.bananas}</Text>
-      </Card>
-    );
-  };
 
   const onSearchForUsers = () => {
     setSearchPerformed(true);
@@ -148,14 +136,7 @@ const Index = () => {
 
       {!searchPerformed && <BottomCosmetic />}
 
-      {searchedUser && (
-        <List
-          style={styles.list}
-          contentContainerStyle={styles.listContainer}
-          data={sortedUser || searchedUser}
-          renderItem={renderItem}
-        />
-      )}
+      {searchedUser && <UserLists data={sortedUser || searchedUser} />}
 
       <EmptySearchModal
         visible={emptySearchModalVisible}
@@ -187,9 +168,6 @@ const styles = StyleSheet.create({
   searchOptionsDivider: {
     marginTop: 10,
   },
-  list: {},
-  listContainer: {},
-  item: {},
 });
 
 export default Index;
