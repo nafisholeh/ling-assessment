@@ -1,4 +1,4 @@
-import { Button, Divider } from '@ui-kitten/components';
+import { Button } from '@ui-kitten/components';
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 
@@ -20,33 +20,27 @@ const SearchOptions: React.FC<SearchOptionsProps> = ({
   onClearSort,
 }) => {
   return (
-    <>
-      <Divider style={styles.searchOptionsDivider} />
-      <View style={styles.searchOptionsWrapper}>
-        <SortRow
-          label="Sort by Name"
-          sortDirection={sortByName}
-          onSortAsc={() => toggleSortByName('asc')}
-          onSortDesc={() => toggleSortByName('desc')}
-        />
-        <SortRow
-          label="Sort by Rank"
-          sortDirection={sortByRank}
-          onSortAsc={() => toggleSortByRank('asc')}
-          onSortDesc={() => toggleSortByRank('desc')}
-        />
-        <Button appearance="outline" status="basic" onPress={onClearSort}>
-          Clear sort
-        </Button>
-      </View>
-    </>
+    <View style={styles.searchOptionsWrapper}>
+      <SortRow
+        label="Sort by Name"
+        sortDirection={sortByName}
+        onSortAsc={() => toggleSortByName('asc')}
+        onSortDesc={() => toggleSortByName('desc')}
+      />
+      <SortRow
+        label="Sort by Rank"
+        sortDirection={sortByRank}
+        onSortAsc={() => toggleSortByRank('asc')}
+        onSortDesc={() => toggleSortByRank('desc')}
+      />
+      <Button appearance="outline" status="basic" onPress={onClearSort}>
+        Clear sort
+      </Button>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  searchOptionsDivider: {
-    marginTop: 10,
-  },
   searchOptionsWrapper: {
     marginVertical: 10,
   },

@@ -111,26 +111,30 @@ const Index = () => {
 
   return (
     <Layout style={styles.root} level="2">
-      <View style={styles.backgroundContainer}>
-        <Image
-          source={require('@/assets/images/banana-win.png')}
-          resizeMode="cover"
-          style={styles.backgroundImage}
-        />
-      </View>
+      {!searchPerformed && (
+        <View style={styles.backgroundContainer}>
+          <Image
+            source={require('@/assets/images/banana-win.png')}
+            resizeMode="cover"
+            style={styles.backgroundImage}
+          />
+        </View>
+      )}
 
       <Card style={styles.searchCard} appearance="filled" disabled={false}>
-        <Text
-          style={{
-            fontSize: 18,
-            fontWeight: 300,
-            marginBottom: 20,
-            letterSpacing: 0.7,
-            lineHeight: 24,
-          }}
-        >
-          Top Banana Bunch:{'\n'}A League of Legends
-        </Text>
+        {!searchPerformed && (
+          <Text
+            style={{
+              fontSize: 18,
+              fontWeight: 300,
+              marginBottom: 20,
+              letterSpacing: 0.7,
+              lineHeight: 24,
+            }}
+          >
+            Top Banana Bunch:{'\n'}A League of Legends
+          </Text>
+        )}
         <View style={styles.searchInputWrapper}>
           <Input
             style={styles.searchBox}
