@@ -90,18 +90,22 @@ const Index = () => {
   };
 
   return (
-    <Layout style={styles.root} level="2">
+    <Layout style={styles().root} level="2">
       {!searchPerformed && (
-        <View style={styles.backgroundContainer}>
+        <View style={styles().backgroundContainer}>
           <Image
             source={require('@/assets/images/banana-win.png')}
             resizeMode="cover"
-            style={styles.backgroundImage}
+            style={styles().backgroundImage}
           />
         </View>
       )}
 
-      <Card style={styles.searchCard} appearance="filled" disabled={false}>
+      <Card
+        style={styles({ searchPerformed }).searchCard}
+        appearance="filled"
+        disabled={false}
+      >
         {!searchPerformed && (
           <Text
             style={{
@@ -122,7 +126,7 @@ const Index = () => {
         />
         {searchPerformed && (
           <>
-            <Divider style={styles.searchOptionsDivider} />
+            <Divider style={styles().searchOptionsDivider} />
             <SearchOptions
               sortByName={sortByName}
               sortByRank={sortByRank}
@@ -146,28 +150,30 @@ const Index = () => {
   );
 };
 
-const styles = StyleSheet.create({
-  root: {
-    flex: 1,
-    justifyContent: 'center',
-  },
-  backgroundContainer: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-  },
-  backgroundImage: {
-    width: '100%',
-    height: 500,
-  },
-  searchCard: {
-    marginHorizontal: 16,
-  },
-  searchOptionsDivider: {
-    marginTop: 10,
-  },
-});
+const styles = (props?: { searchPerformed: boolean }) =>
+  StyleSheet.create({
+    root: {
+      flex: 1,
+      justifyContent: 'center',
+    },
+    backgroundContainer: {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+    },
+    backgroundImage: {
+      width: '100%',
+      height: 500,
+    },
+    searchCard: {
+      marginHorizontal: 16,
+      marginTop: props?.searchPerformed ? 70 : 0,
+    },
+    searchOptionsDivider: {
+      marginTop: 10,
+    },
+  });
 
 export default Index;
