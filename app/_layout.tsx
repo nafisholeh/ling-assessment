@@ -9,7 +9,7 @@ import store from '@/store/index';
 
 const RootStack: React.FC = () => (
   <Stack>
-    <Stack.Screen name="index" />
+    <Stack.Screen name="index" options={{ headerShown: false }} />
   </Stack>
 );
 
