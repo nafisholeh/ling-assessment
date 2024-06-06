@@ -1,6 +1,6 @@
 import * as actionTypes from './actionTypes';
 
-const initialState: UserState = {
+export const initialState: UserState = {
   users: [],
   searchKeyword: null,
   error: null,
