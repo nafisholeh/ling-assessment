@@ -45,6 +45,14 @@ const SearchOptions: React.FC<SearchOptionsProps> = ({
     }
   }, [sortParams]);
 
+  const _onClearSort = () => {
+    setNameSortDirection(undefined);
+    setRankSortDirection(undefined);
+    if (onClearSort) {
+      onClearSort();
+    }
+  };
+
   return (
     <View style={styles.searchOptionsWrapper}>
       <SortRow
@@ -59,7 +67,7 @@ const SearchOptions: React.FC<SearchOptionsProps> = ({
         onSortAsc={() => toggleSortByRank('asc')}
         onSortDesc={() => toggleSortByRank('desc')}
       />
-      <Button appearance="outline" status="basic" onPress={onClearSort}>
+      <Button appearance="outline" status="basic" onPress={_onClearSort}>
         Clear sort
       </Button>
     </View>
