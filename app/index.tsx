@@ -33,7 +33,10 @@ const Index = () => {
   useEffect(() => {
     if (searchPerformed && searchedUser && searchedUser.length === 0) {
       setSearchPerformed(false);
-      setEmptySearchModalVisible(true);
+      setTimeout(() => {
+        // Delay setting the modal visible to ensure it's shown after the component re-renders
+        setEmptySearchModalVisible(true);
+      }, 200);
     } else {
       setEmptySearchModalVisible(false);
     }
