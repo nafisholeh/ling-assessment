@@ -1,50 +1,76 @@
-# Welcome to your Expo app 👋
+# Ling-Assessment
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+<p align="center">
+  <img src="https://github.com/nafisholeh/ling-assessment/assets/1610912/3b427360-262d-4777-8223-a6ba6c54f86c" alt="Simulator Screenshot - iPhone 15 Pro Max - 2024-06-07 at 22 12 49" width="300px"/>
+  <img src="https://github.com/nafisholeh/ling-assessment/assets/1610912/bda43134-c589-4a13-8f9e-39f183a1fb9f" alt="Simulator Screenshot - iPhone 15 Pro Max - 2024-06-07 at 22 13 09" width="300px"/>
+</p>
 
-## Get started
+## Description
+Ling-Assessment is a project designed to help users find and rank people based on the number of bananas they have. The main functionality includes searching for a user and displaying the top 10 users with the highest banana counts, with various sorting options and error handling.
 
-1. Install dependencies
+## Features
+- Search for a user by name
+- Display a ranked list of the top 10 users with the most bananas
+- Highlight the searched user in the list
+- Error handling for non-existent users
+- Sorting options by name and rank
+- Fuzzy search capability
 
-   ```bash
-   npm install
-   ```
+## Installation
+To install and set up this project, follow these steps:
 
-2. Start the app
+1. Clone the repository:
+    ```bash
+    git clone https://github.com/nafisholeh/ling-assessment.git
+    ```
+2. Navigate to the project directory:
+    ```bash
+    cd ling-assessment
+    ```
+3. Install the necessary dependencies:
+    ```bash
+    npm install
+    ```
 
-   ```bash
+## Usage
+To use this project, follow these steps:
+
+1. Start the project using Expo:
+    ```bash
     npx expo start
-   ```
+    ```
+2. Follow the command listed on the output to run on iOS simulator by pressing `i` or Android simulator by pressing `a`.
 
-In the output, you'll find options to open the app in a
+### Using the App
+1. Input the user name in the search field and click the search button.
+2. The app will render a list of the 10 people with the most bananas, including:
+    - Name
+    - Rank (1 for the highest number of bananas, 2 for the second-highest, etc.)
+    - The number of bananas
+3. The searched user will be highlighted in the list.
+4. If the searched user does not exist, an error message will be shown: “This user name does not exist! Please specify an existing user name!”.
+5. If the searched user has enough bananas to appear in the top 10, they will be included in the list. If not, they will replace the last rank of the top 10 list and their true rank will be displayed.
+6. Options to sort the list by name and rank are available.
+7. An option to show the lowest ranked users, with users having the same score listed alphabetically, is available.
+8. Fuzzy search allows the user to search by partial name, showing usernames that match the criteria and sorting them by highest to lowest ranked users.
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## Contributing
+We welcome contributions to Ling-Assessment! Please follow these guidelines:
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+1. Fork the repository.
+2. Create a new branch for your feature or bugfix:
+    ```bash
+    git checkout -b feature/your-feature-name
+    ```
+3. Commit your changes:
+    ```bash
+    git commit -m "Describe your changes"
+    ```
+4. Push to the branch:
+    ```bash
+    git push origin feature/your-feature-name
+    ```
+5. Create a pull request.
 
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+## License
+This project is licensed under the [MIT License](LICENSE).
