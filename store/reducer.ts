@@ -3,7 +3,7 @@ import * as actionTypes from './actionTypes';
 export const initialState: UserState = {
   users: [],
   searchKeyword: null,
-  error: null,
+  sortParams: null,
 };
 
 const reducer = (
@@ -39,6 +39,11 @@ const reducer = (
       return {
         ...state,
         searchKeyword: action.searchKeyword,
+      };
+    case actionTypes.SORT_SEARCH_RESULTS:
+      return {
+        ...state,
+        sortParams: (action as SortSearchResultsAction).sortParams,
       };
     default:
       return state;

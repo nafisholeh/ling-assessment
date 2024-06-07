@@ -15,3 +15,11 @@ export function searchForUsers(searchKeyword: string) {
   };
   return action;
 }
+
+export function sortSearchResults(sortParams: SortParams) {
+  const action: SortSearchResultsAction = {
+    type: actionTypes.SORT_SEARCH_RESULTS,
+    sortParams,
+  };
+  return action;
+}

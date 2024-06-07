@@ -10,21 +10,28 @@ import SearchInput from '@/components/SearchInput';
 import SearchOptions from '@/components/SortOptions';
 import UserLists from '@/components/UserLists';
 import data from '@/data/leaderboard.json';
-import { formatUserEntries, searchForUsers } from '@/store/actionCreators';
-import { getSearchedUser } from '@/store/selectors';
+import {
+  formatUserEntries,
+  searchForUsers,
+  sortSearchResults,
+} from '@/store/actionCreators';
+import {
+  getSearchedUser,
+  getSortParams,
+  getSortedUser,
+} from '@/store/selectors';
 
 const Index = () => {
   const [keyword, setKeyword] = useState<string | undefined>(undefined);
   const [emptySearchModalVisible, setEmptySearchModalVisible] =
     useState<boolean>(false);
   const [searchPerformed, setSearchPerformed] = useState<boolean>(false);
-  const [sortByName, setSortByName] = useState<'asc' | 'desc' | undefined>();
-  const [sortByRank, setSortByRank] = useState<'asc' | 'desc' | undefined>();
-  const [sortedUser, setSortedUser] = useState<IUser[] | undefined>();
 
   const dispatch: Dispatch<UserAction> = useDispatch();
 
   const searchedUser = useSelector(getSearchedUser);
+  const sortedUser = useSelector(getSortedUser);
+  const sortParams = useSelector(getSortParams);
 
   useEffect(() => {
     dispatch(formatUserEntries(Object.values(data)));
@@ -44,7 +51,7 @@ const Index = () => {
 
   const onSearchForUsers = () => {
     setSearchPerformed(true);
-    setSortedUser(undefined);
+    dispatch(sortSearchResults(null));
     if (keyword) {
       dispatch(searchForUsers(keyword));
     }
@@ -59,37 +66,15 @@ const Index = () => {
   };
 
   const toggleSortByName = (direction: 'asc' | 'desc') => {
-    setSortByRank(undefined);
-    setSortByName(direction);
-    const sorted = searchedUser
-      ? [...searchedUser].sort((a, b) => {
-          return direction === 'asc'
-            ? a.name.localeCompare(b.name)
-            : b.name.localeCompare(a.name);
-        })
-      : undefined;
-    setSortedUser(sorted);
+    dispatch(sortSearchResults(`name_${direction}`));
   };
 
   const toggleSortByRank = (direction: 'asc' | 'desc') => {
-    setSortByName(undefined);
-    setSortByRank(direction);
-    const sorted = searchedUser
-      ? [...searchedUser].sort((a, b) => {
-          // same score are listed alphabetically
-          if (a.bananas === b.bananas) {
-            return a.name.localeCompare(b.name);
-          }
-          return direction === 'asc' ? a.rank - b.rank : b.rank - a.rank;
-        })
-      : undefined;
-    setSortedUser(sorted);
+    dispatch(sortSearchResults(`rank_${direction}`));
   };
 
   const onClearSort = () => {
-    setSortedUser(undefined);
-    setSortByName(undefined);
-    setSortByRank(undefined);
+    dispatch(sortSearchResults(null));
   };
 
   return (
@@ -131,8 +116,7 @@ const Index = () => {
           <>
             <Divider style={styles().searchOptionsDivider} />
             <SearchOptions
-              sortByName={sortByName}
-              sortByRank={sortByRank}
+              sortParams={sortParams}
               toggleSortByName={toggleSortByName}
               toggleSortByRank={toggleSortByRank}
               onClearSort={onClearSort}

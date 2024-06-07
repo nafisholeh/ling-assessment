@@ -1,35 +1,61 @@
 import { Button } from '@ui-kitten/components';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 
 import SortRow from './SortRow';
 
 interface SearchOptionsProps {
-  sortByName: 'asc' | 'desc' | undefined;
-  sortByRank: 'asc' | 'desc' | undefined;
+  sortParams: SortParams;
   toggleSortByName: (direction: 'asc' | 'desc') => void;
   toggleSortByRank: (direction: 'asc' | 'desc') => void;
   onClearSort: () => void;
 }
 
 const SearchOptions: React.FC<SearchOptionsProps> = ({
-  sortByName,
-  sortByRank,
+  sortParams,
   toggleSortByName,
   toggleSortByRank,
   onClearSort,
 }) => {
+  const [nameSortDirection, setNameSortDirection] = useState<
+    'asc' | 'desc' | undefined
+  >();
+  const [rankSortDirection, setRankSortDirection] = useState<
+    'asc' | 'desc' | undefined
+  >();
+
+  useEffect(() => {
+    switch (sortParams) {
+      case 'name_asc':
+        setNameSortDirection('asc');
+        setRankSortDirection(undefined);
+        break;
+      case 'name_desc':
+        setNameSortDirection('desc');
+        setRankSortDirection(undefined);
+        break;
+      case 'rank_asc':
+        setRankSortDirection('asc');
+        setNameSortDirection(undefined);
+        break;
+      case 'rank_desc':
+        setRankSortDirection('desc');
+        setNameSortDirection(undefined);
+        break;
+    }
+  }, [sortParams]);
+
   return (
     <View style={styles.searchOptionsWrapper}>
       <SortRow
         label="Sort by Name"
-        sortDirection={sortByName}
+        sortDirection={nameSortDirection}
         onSortAsc={() => toggleSortByName('asc')}
         onSortDesc={() => toggleSortByName('desc')}
       />
       <SortRow
         label="Sort by Rank"
-        sortDirection={sortByRank}
+        sortDirection={rankSortDirection}
         onSortAsc={() => toggleSortByRank('asc')}
         onSortDesc={() => toggleSortByRank('desc')}
       />

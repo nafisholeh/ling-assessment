@@ -10,10 +10,12 @@ interface IUser extends IUserBase {
   isHighlighted?: boolean;
 }
 
+type SortParams = 'rank_asc' | 'rank_desc' | 'name_asc' | 'name_desc' | null;
+
 type UserState = {
   users: IUser[];
   searchKeyword: string | null;
-  error: string | null;
+  sortParams: SortParams;
 };
 
 type FormatUserEntriesAction = {
@@ -26,5 +28,13 @@ type SearchForUsersAction = {
   searchKeyword: string;
 };
 
-type UserAction = FormatUserEntriesAction | SearchForUsersAction;
+type SortSearchResultsAction = {
+  type: string;
+  sortParams: SortParams;
+};
+
+type UserAction =
+  | FormatUserEntriesAction
+  | SearchForUsersAction
+  | SortSearchResultsAction;
 type DispatchType = (args: UserAction) => UserAction;
