@@ -9,7 +9,7 @@ interface EmptySearchModalProps {
 
 const EmptySearchModal: React.FC<EmptySearchModalProps> = ({
   visible,
-  onClose,
+  onClose = () => {},
 }) => {
   return (
     <Modal
@@ -18,8 +18,9 @@ const EmptySearchModal: React.FC<EmptySearchModalProps> = ({
       onBackdropPress={onClose}
     >
       <Card disabled={true}>
-        <Text>
-          This user name does not exist! Please specify an existing user name!
+        <Text style={styles.text}>
+          This user name does not exist!{'\n'}Please specify an existing user
+          name!
         </Text>
         <Button onPress={onClose}>DISMISS</Button>
       </Card>
@@ -33,6 +34,10 @@ const styles = StyleSheet.create({
   },
   backdrop: {
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  text: {
+    marginBottom: 20,
+    textAlign: 'center',
   },
 });
 
