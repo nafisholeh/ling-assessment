@@ -12,12 +12,12 @@ const reducer = (
 ): UserState => {
   switch (action.type) {
     case actionTypes.FORMAT_USER_ENTRIES: {
-      const sortedUsers = action.users
-        .map((user: IUser) => ({
+      const sortedUsers = (action as FormatUserEntriesAction).users
+        .map((user: IUserBase) => ({
           ...user,
           lowerName: user.name.toLowerCase(),
         }))
-        .sort((a: IUser, b: IUser) => {
+        .sort((a: IUserBase, b: IUserBase) => {
           if (b.bananas !== a.bananas) {
             return b.bananas - a.bananas;
           } else {
@@ -25,10 +25,10 @@ const reducer = (
             return a.name.localeCompare(b.name);
           }
         });
-      const rankedUsers = sortedUsers.map((user: IUser, index: number) => ({
+      const rankedUsers = sortedUsers.map((user: IUserBase, index: number) => ({
         ...user,
         rank: index + 1,
-      }));
+      })) as IUser[];
 
       return {
         ...state,
@@ -38,7 +38,7 @@ const reducer = (
     case actionTypes.SEARCH_FOR_USERS:
       return {
         ...state,
-        searchKeyword: action.searchKeyword,
+        searchKeyword: (action as SearchForUsersAction).searchKeyword,
       };
     case actionTypes.SORT_SEARCH_RESULTS:
       return {
